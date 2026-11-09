@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- scan="true"：配置文件修改时自动重新加载（默认每分钟检查一次） -->
+<configuration scan="true">
+
+    <!-- 日志输出目录，运行后会在项目工作目录下生成 logs 文件夹 -->
+    <property name="LOG_HOME" value="logs"/>
+
+    <!-- 日志输出格式：时间 [线程] 级别 日志名(最长36字符) - 消息 换行 -->
+    <property name="LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 文件输出：每天滚动一个新文件，保留30天历史 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 历史文件命名：app.20261109.log -->
+            <fileNamePattern>${LOG_HOME}/app.%d{yyyyMMdd}.log</fileNamePattern>
+            <!-- 保留30天的日志 -->
+            <maxHistory>30</maxHistory>
+            <!-- 总容量超过1GB时自动清理旧日志（可选） -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 项目包单独设置级别，可按需调整 -->
+    <logger name="com.springLearn" level="DEBUG"/>
+
+    <!-- 全局默认级别：INFO，同时输出到控制台和文件 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
