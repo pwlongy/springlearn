@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 构造注入 -->
+    <bean id="OrderController" class="com.springLearn.controller.impl.OrderControllerImpl">
+        <constructor-arg index="0" ref="OrderService"></constructor-arg>
+    </bean>
+    <bean id="OrderService" class="com.springLearn.service.impl.OrderServiceImpl">
+        <constructor-arg index="0" ref="OrderDao"></constructor-arg>
+    </bean>
+    <bean id="OrderDao" class="com.springLearn.dao.impl.OrderDaoImpl"></bean>
+</beans>

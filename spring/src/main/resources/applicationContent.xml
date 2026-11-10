@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- controller 对象创建 -->
+    <bean id="userController" class="com.springLearn.controller.impl.UserControllerImpl">
+        <!-- 这个就是 set 注入，底层实现原理，通过反射机制调用setter 方法 -->
+        <!--
+            name： 属性名 userService， 拼接成为一个方法名：setUserService
+            也就是说这个name 属性值不能随便写， 必须和setter 方法名一致，在UserControllerImpl文件中的 setUserService 方法名一致
+         -->
+        <!-- ref： setter 方法执行时需要一个参数， 通过ref属性来提供这个参数 -->
+        <property name="userService" ref="userService"></property>
+    </bean>
+    <bean id="userService" class="com.springLearn.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+    <bean id="userDao" class="com.springLearn.dao.impl.UserDaoImpl"></bean>
+
+    <bean id="orderController" class="com.springLearn.controller.impl.OrderControllerImpl">
+        <!-- 内部bean -->
+        <property name="orderService">
+            <bean class="com.springLearn.service.impl.OrderServiceImpl"></bean>
+        </property>
+    </bean>
+</beans>
