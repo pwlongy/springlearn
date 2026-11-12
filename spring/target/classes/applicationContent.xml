@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- controller 对象创建 -->
+    <bean id="userController" class="com.springLearn.controller.impl.UserControllerImpl">
+        <!-- 这个就是 set 注入，底层实现原理，通过反射机制调用setter 方法 -->
+        <!--
+            name： 属性名 userService， 拼接成为一个方法名：setUserService
+            也就是说这个name 属性值不能随便写， 必须和setter 方法名一致，在UserControllerImpl文件中的 setUserService 方法名一致
+         -->
+        <!-- ref： setter 方法执行时需要一个参数， 通过ref属性来提供这个参数 -->
+        <property name="userService" ref="userService"></property>
+    </bean>
+    <bean id="userService" class="com.springLearn.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+    <bean id="userDao" class="com.springLearn.dao.impl.UserDaoImpl"></bean>
+
+
+    <bean id="orderDao" class="com.springLearn.dao.impl.OrderDaoImpl"></bean>
+
+
+    <!--   注入简单数据类型   -->
+    <bean id="AnimalBean" class="com.springLearn.entity.Animal">
+        <!-- 简单基本数据类型的注入写法 简单数据类型的注入一定要使用value 属性， 不能使用ref -->
+        <property name="name" value="dog"></property>
+        <!-- 因为value默认传递的是string类型，但是定义的又是 int 数据类型， 内部会自动实现类型装换 -->
+        <property name="age" value="12"></property>
+    </bean>
+
+    <!--  数组注入    -->
+    <bean id="AnimalColorBean" class="com.springLearn.entity.Animal">
+        <!--   数组数据的注入   -->
+        <property name="LoveColor">
+            <array>
+                <value>red</value>
+                <value>blue</value>
+                <value>yellow</value>
+            </array>
+        </property>
+    </bean>
+
+    <!--  注入复杂类型数组数据    -->
+    <bean id="MasterBean" class="com.springLearn.entity.Master">
+        <property name="name" value="master1"></property>
+        <property name="age" value="12"></property>
+    </bean>
+    <bean id="MasterBean1" class="com.springLearn.entity.Master">
+        <property name="name" value="master1"></property>
+        <property name="age" value="12"></property>
+    </bean>
+    <bean id="AnimalMasterBean" class="com.springLearn.entity.Animal">
+        <property name="master">
+            <!-- 注入 List 集合 或者 set 集合数据的时候，只需要将 <array>标签替换为 <List> 标签或者 <Set> 标签 -->
+            <array>
+                <ref bean="MasterBean"></ref>
+                <ref bean="MasterBean1"></ref>
+            </array>
+        </property>
+    </bean>
+
+
+    <!--      注入 Map 集合数据   -->
+    <bean id="AnimalMapBean" class="com.springLearn.entity.Animal">
+        <property name="map">
+            <map>
+                <!-- 当key或者value 不是简单数据类型的时候就， key 需要修改为key-ref  value 需要修改为value-ref -->
+                <entry key="key1" value-ref="MasterBean"></entry>
+                <entry key="key2" value-ref="MasterBean1"></entry>
+            </map>
+        </property>
+
+        <!-- properties 注入： key-value 格式， properties 数据格式的特点，key 和 value 都是字符串类型 -->
+        <property name="properties">
+            <props>
+                <prop key="key1">value1</prop>
+                <prop key="key2">value2</prop>
+            </props>
+        </property>
+    </bean>
+
+    <util:properties id="prop">
+        <prop key="key1">value1</prop>
+        <prop key="key2">value2</prop>
+    </util:properties>
+
+    <bean id="AnimalPropertiesBean" class="com.springLearn.entity.Animal">
+        <property name="properties" ref="prop"></property>
+    </bean>
+</beans>

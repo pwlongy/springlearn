@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 构造注入 -->
+    <bean id="OrderController" class="com.springLearn.controller.impl.OrderControllerImpl">
+        <constructor-arg index="0" ref="OrderService"></constructor-arg>
+    </bean>
+    <bean id="OrderService" class="com.springLearn.service.impl.OrderServiceImpl">
+        <constructor-arg index="0" ref="OrderDao"></constructor-arg>
+    </bean>
+    <bean id="OrderDao" class="com.springLearn.dao.impl.OrderDaoImpl"></bean>
+
+
+    <!--  内部 bean    -->
+    <bean id="UserController" class="com.springLearn.controller.impl.UserControllerImpl">
+        <!-- 内部bean -->
+        <property name="UserService">
+            <bean class="com.springLearn.service.impl.UserServiceImpl" >
+                <property name="UserDao" ref="UserDao"></property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="UserDao" class="com.springLearn.dao.impl.UserDaoImpl"></bean>
+
+</beans>

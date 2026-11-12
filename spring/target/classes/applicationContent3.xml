@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--  自动注入    -->
+    <!-- 自动注入： 在bean中配置autowire属性， 值为 byName
+        比如 accountController 对象中有一个 accountService 属性，以及setAccountService方法，
+        那么在accountController 对象中， 会自动注入一个accountService 对象
+        注入的规则： 在容器中存在一个id 为 accountService 的对象， 那么就会注入进来
+        如果容器中不存在id 为 accountService 的对象， 那么就会报错
+
+        byName 主要是靠 setter 方法的名称来进行注入的， 所以setter 方法的名称必须和属性名称一致
+        byType 主要是靠 注入得类型自动注入，当一个文件中又多个类型得文件时，会提示报错
+     -->
+    <bean id="accountController" class="com.springLearn.controller.impl.AccountControllerImpl" autowire="byName"></bean>
+    <bean id="accountService" class="com.springLearn.service.impl.AccountServiceImpl" autowire="byName"></bean>
+    <bean id="accountDao" class="com.springLearn.dao.impl.AccountDaoImpl"></bean>
+
+    <!-- username会读取本地环境变量配置  system-properties-mode="NEVER" 完全忽略环境变量 -->
+    <context:property-placeholder location="jdbc.properties" system-properties-mode="NEVER"></context:property-placeholder>
+    <bean id="MysqlDataSource" class="com.springLearn.entity.MysqlDataSource">
+        <property name="driver" value="${driver}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="username" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+    </bean>
+
+    <!--
+         默认情况下 spring bean是单例的（也就是说你每次获取的bean是同一个bena [applicationContext.getBean("xxxx", xxxx.class)]），
+         也就是说默认情况下： scope属性值是 singleton
+         如果需要修改为多例， 那么就需要将 scope属性值设置为 prototype
+    -->
+    <bean id="accountDao2" class="com.springLearn.dao.impl.AccountDaoImpl" scope="prototype"></bean>
+</beans>
