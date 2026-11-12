@@ -6,5 +6,31 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
                             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 工厂方法注入 -->
+    <!-- 简单工厂模式 -->
     <bean id="factoryMethodBean" class="com.springLearn.factory.CreatFactory" factory-method="get"></bean>
+    <!--   工厂方法模式   -->
+    <!-- 使用工厂方法模式实例化bean -->
+    <!-- 将集体工厂纳入IOC容器管理 -->
+    <bean id="ZoomFactoryBean" class="com.springLearn.factory.ZoomFactory.ZoomFactory"></bean>
+    <!-- factoryBean本身是一个Bean，本省已经纳入IOC容器管理 -->
+    <!-- factoryBean的作用，协助 Spring 框架完成 Bean 的实例化 -->
+    <bean id="zoom" factory-bean="ZoomFactoryBean" factory-method="get"></bean>
+
+    <!--  使用自定义工厂方法注入    -->
+    <bean id="zoom2" class="com.springLearn.factory.ZoomFactory.Zoom">
+        <property name="name" value="小明动物园"></property>
+        <property name="address" value="江西吉安"></property>
+        <property name="openTime">
+            <bean class="com.springLearn.factory.DateFactoryBean">
+                <constructor-arg index="0" value="2026-10-10"></constructor-arg>
+            </bean>
+        </property>
+        <property name="closeTime">
+            <bean class="com.springLearn.factory.DateFactoryBean">
+                <constructor-arg index="0" value="2026-10-10"></constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

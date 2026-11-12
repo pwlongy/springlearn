@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--     bean的生命周期 -->
+    <!--   七步生命周期   -->
+    <bean class="com.springLearn.factory.BeanLive.SevenLive"></bean>
+
+    <!--   十步生命周期   -->
+    <bean id="TenLiveBean" class="com.springLearn.factory.BeanLive.TenLive" init-method="initLive" destroy-method="destroyLive">
+        <property name="name" value="小明动物园"></property>
+    </bean>
+</beans>
