@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- Spring注解的使用 -->
+    <!--
+        使用步骤
+        1. 加入 aop 依赖， 也就也是 spring-aop 依赖， 在引入 spring-context 依赖时， 会自动引入 spring-aop 依赖
+        2. 在配置文件中添加 context 命名空间
+            xmlns:context="http://www.springframework.org/schema/context"
+        3. 在配置文件中指定扫描的包 <context:component-scan base-package="com.springLearn.annotation"></context:component-scan>
+        4. 在需要使用注解的类上添加注解
+
+     -->
+    <!-- 指定spring框架需要扫描的包 -->
+    <!-- base-package如果需要扫描多个包 ，可以使用逗号分隔 -->
+    <context:component-scan base-package="com.springLearn.annotation"></context:component-scan>
+
+    <!-- 或者使用大一级的包目录结构 -->
+    <!-- <context:component-scan base-package="com.springLearn"></context:component-scan> -->
+
+    <!--  选择性实例化bean    -->
+    <!--  排除部分bean实例化    -->
+    <!-- <context:component-scan base-package="com.springLearn.annotation"> -->
+    <!--     &lt;!&ndash; 排除@Controller、@Service 的项目实例化&ndash;&gt; -->
+    <!--     <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
+    <!--     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/> -->
+    <!-- </context:component-scan> -->
+
+    <!-- use-default-filters="false" 表示不使用默认的过滤器, 这个时候带有@Controller、@Service、@Repository、@Component 注解的类都不在参与实例化 -->
+    <!-- <context:component-scan base-package="com.springLearn.annotation" use-default-filters="false"> -->
+    <!--     &lt;!&ndash; 你想让谁参与实例化，则给它包含进来，以下配置表示只有@Controller的注解才参与实例化 &ndash;&gt; -->
+    <!--     <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
+    <!-- </context:component-scan> -->
+</beans>
